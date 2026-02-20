@@ -45,3 +45,13 @@ void Map::generateRandomTopology() {
 
     }
 }
+
+void Map::displayMap() const {
+    std::cout << "TESTING PATHS: " << std::endl;
+
+    for (int i = 0; i < paths.size(); i++) {
+        std::cout << "Path " << i << ": ";
+        std::cout << paths[i].getNodeA() << " to " << paths[i].getNodeB();
+        std::cout << " dist: " << paths[i].getDistance() << std::endl;
+    }
+}
