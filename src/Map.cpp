@@ -2,6 +2,9 @@
 #include <iostream>
 #include <algorithm>
 #include <random>
+#include <queue>
+#include <map>
+#include <algorithm>
 
 Map::Map() {
     std::random_device rd;
@@ -54,4 +57,17 @@ void Map::displayMap() const {
         std::cout << paths[i].getNodeA() << " to " << paths[i].getNodeB();
         std::cout << " dist: " << paths[i].getDistance() << std::endl;
     }
+}
+
+std::vector<int> Map::getShortestPath(int a, int b) {
+    // setup STL containers
+    std::map<int, double> min_dist;
+    std::map<int, int> parent;
+
+    // priority queue stores pairs of (distance, nodeID)
+    // std::greater makes it a "min-priority queue" (smallest distance first)
+    std::priority_queue<std::pair<double, int>,
+                        std::vector<std::pair<double, int>>,
+                        std::greater<std::pair<double, int>>> pq;
+                        
 }
