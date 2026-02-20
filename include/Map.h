@@ -15,7 +15,7 @@ class Map {
 
         void displayMap() const;
 
-        std::vector<int> getShortestPath(int a, int b);
+        std::vector<int> getPath(int a, int b);
 
     private:
         std::vector<Node> nodes;

@@ -4,7 +4,7 @@
 #include <random>
 #include <queue>
 #include <map>
-#include <algorithm>
+
 
 Map::Map() {
     std::random_device rd;
@@ -59,15 +59,44 @@ void Map::displayMap() const {
     }
 }
 
-std::vector<int> Map::getShortestPath(int a, int b) {
-    // setup STL containers
-    std::map<int, double> min_dist;
-    std::map<int, int> parent;
+std::vector<int> Map::getPath(int a, int b) {
+    std::queue<int> q;
+    std::map<int, int> parent; // tracks how we got to each node
+    std::map<int, bool> visited;
 
-    // priority queue stores pairs of (distance, nodeID)
-    // std::greater makes it a "min-priority queue" (smallest distance first)
-    std::priority_queue<std::pair<double, int>,
-                        std::vector<std::pair<double, int>>,
-                        std::greater<std::pair<double, int>>> pq;
-                        
+    q.push(a);
+    visited[a] = true;
+
+    while (!q.empty()) {
+        int current = q.front();
+        q.pop();
+
+        if (current == b) break; // found!
+
+        for (const auto& path : paths) {
+            int next = -1;
+            if (path.getNodeA() == current)
+                next = path.getNodeB();
+            else if (path.getNodeB() == current)
+                next = path.getNodeA();
+
+        if (next != -1 && !visited[next]) {
+            visited[next] = true;
+            parent[next] = current;
+            q.push(next);
+        }
+        }
+    }
+
+    // reconstruct the path by backtracking
+    std::vector<int> route;
+    for (int v = b; v != a; v = parent[v]) {
+        route.push_back(v);
+    }
+    route.push_back(a);
+    // reverse it to get store to house
+    std::reverse(route.begin(), route.end());
+
+    return route;
+    
 }
