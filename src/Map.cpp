@@ -22,3 +22,26 @@ void Map::addEdge(int a, int b) {
     paths.push_back(newPath);
     
 }
+
+void Map::generateRandomTopology() {
+    std::vector<int> connected = {0};
+    std::vector<int> unconnected = {1,2,3,4,5,6,7,8,9,10};
+
+    while (!unconnected.empty()) {
+        std::uniform_int_distribution<> unconnDist(0, unconnected.size() - 1);
+        int unconnIdx = unconnDist(generator);
+        int houseID = unconnected[unconnIdx];
+
+        std::uniform_int_distribution<> connDist(0, connected.size() - 1);
+
+        int nodeA = connected[connDist(generator)];
+        int nodeB = houseID;
+
+        addEdge(nodeA, nodeB);
+
+        connected.push_back(houseID);
+        unconnected.erase(unconnected.begin() + unconnIdx);
+
+
+    }
+}
